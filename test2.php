@@ -24,12 +24,17 @@
 			</div>
 			<div>
 				Tip Percentage:
-					<input type="radio" name="tipPercent" value="0.10" 
-						<?php if(isset($_POST['tipPercent']) && $_POST['tipPercent'] == "0.10") echo " checked='checked'"; ?> >10%				
-					<input type="radio" name="tipPercent" value="0.15"
-						<?php if(isset($_POST['tipPercent']) && $_POST['tipPercent'] == "0.15") echo " checked='checked'"; ?> >15%
-					<input type="radio" name="tipPercent" value="0.20"
-						<?php if(isset($_POST['tipPercent']) && $_POST['tipPercent'] == "0.20") echo " checked='checked'"; ?> >20%
+
+				<?php
+					for ($i = 0.10; $i <= 0.20; $i = $i + 0.05) {
+						if(isset($_POST['tipPercent']) && $_POST['tipPercent'] == $i) {
+							echo '<input type="radio" name="tipPercent" value="' . $i . '"' . " checked='checked'>" . $i * 100 . "%";
+						} else {
+							echo '<input type="radio" name="tipPercent" value="' . $i . '">' . $i * 100 . "%";
+						}
+					}
+				?>
+
 			</div>
 			<div>
 				<input type="submit" value="Submit">
@@ -37,8 +42,8 @@
 			<div>
 				<?php 
 					if (isset($_POST['costfield'], $_POST['tipPercent'])) {
-						$costfield = $_POST['costfield'];
-						$tipPercent = $_POST['tipPercent'];
+						$costfield = (float) $_POST['costfield'];
+						$tipPercent = (float) $_POST['tipPercent'];
 
 						if (is_numeric($costfield) && $costfield >= 0) {
 							echo '<br><fieldset>';
